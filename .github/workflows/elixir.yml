@@ -1,8 +1,6 @@
 name: Elixir CI
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
   push:
@@ -35,7 +33,7 @@ jobs:
       env: 
         TELEGRAM_BOT_NAME: ${{ secrets.TELEGRAM_BOT_NAME }}
         TELEGRAM_BOT_SECRET: ${{ secrets.TELEGRAM_BOT_SECRET }}
-        
+
   tagged-release:
     name: "Noted Release"
     runs-on: "ubuntu-latest"
