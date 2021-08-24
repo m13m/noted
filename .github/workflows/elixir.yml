@@ -5,6 +5,9 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  push:
+    tags:
+      - "v*"  
 
 jobs:
   build:
@@ -33,4 +36,22 @@ jobs:
         TELEGRAM_BOT_NAME: ${{ secrets.TELEGRAM_BOT_NAME }}
         TELEGRAM_BOT_SECRET: ${{ secrets.TELEGRAM_BOT_SECRET }}
         
+  tagged-release:
+    name: "Noted Release"
+    runs-on: "ubuntu-latest"
 
+    steps:
+      - name: "Build and Create the Elixir app release"
+        run: |
+         mix deps.get --only prod
+         MIX_ENV=prod mix compile
+         npm install --prefix ./assets
+         npm run deploy --prefix ./assets
+         mix phx.digest
+         MIX_ENV=prod mix release
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          
