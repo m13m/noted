@@ -48,8 +48,7 @@ jobs:
          mix phx.digest
          MIX_ENV=prod mix release
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - uses: "erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24"
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-          
+          elixir-version: '1.11.4' # Define the elixir version [required]
+          otp-version: '23.3.4' # Define the OTP version [required]
