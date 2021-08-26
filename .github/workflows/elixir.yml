@@ -37,7 +37,6 @@ jobs:
       - name: Run tests
         run: |
           mix compile 
-          mix format --check-formatted
           mix test
         env:
           MIX_ENV: test
