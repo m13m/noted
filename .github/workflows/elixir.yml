@@ -12,11 +12,11 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-latest
+          - [ubuntu-20.04]
         otp:
           - 23.x
         elixir:
-          - 1.9.x
+          - 1.11.x
         node:
           - 12.x
     steps:
