@@ -54,7 +54,7 @@ jobs:
       - name: Create Noted Github release
         run: |
           mix release
-          tar -czvf noted.tar.gz _build/
+          tar -czvf noted.tar.gz _build/prod
         env:
           MIX_ENV: prod
           SECRET_KEY_BASE: oTgI3dI2Pm/hmY1Ew779LdDU5gIXBThauoq+alr3yYSx+1heuY15C3cwgjYq17g1
