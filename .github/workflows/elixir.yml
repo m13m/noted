@@ -47,16 +47,20 @@ jobs:
           mix compile
           npm run deploy --prefix ./assets
           mix phx.digest
+          
         env:
           MIX_ENV: prod
           SECRET_KEY_BASE: oTgI3dI2Pm/hmY1Ew779LdDU5gIXBThauoq+alr3yYSx+1heuY15C3cwgjYq17g1
           DATABASE_URL: "database.db" 
-      - name: Build & test
+      - name: Create Noted Github release
         run: |
           mix release
+          tar -czvf noted.tar.gz _build/
+        env:
+          MIX_ENV: prod    
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
           prerelease: false
           files: |
-            _build/*
+            noted.tar.gz
