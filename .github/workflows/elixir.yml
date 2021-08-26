@@ -59,4 +59,4 @@ jobs:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
           prerelease: false
           files: |
-            _build/prod/rel/noted
+            _build/*
