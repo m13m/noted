@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - [ubuntu-20.04]
+          - - ubuntu-20.04
         otp:
           - 23.x
         elixir:
@@ -47,17 +47,18 @@ jobs:
           mix compile
           npm run deploy --prefix ./assets
           mix phx.digest
-          
         env:
           MIX_ENV: prod
           SECRET_KEY_BASE: oTgI3dI2Pm/hmY1Ew779LdDU5gIXBThauoq+alr3yYSx+1heuY15C3cwgjYq17g1
-          DATABASE_URL: "database.db" 
+          DATABASE_URL: database.db
       - name: Create Noted Github release
         run: |
           mix release
           tar -czvf noted.tar.gz _build/
         env:
-          MIX_ENV: prod    
+          MIX_ENV: prod
+          SECRET_KEY_BASE: oTgI3dI2Pm/hmY1Ew779LdDU5gIXBThauoq+alr3yYSx+1heuY15C3cwgjYq17g1
+          DATABASE_URL: database.db
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
