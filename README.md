@@ -1,5 +1,15 @@
 # Noted [![Elixir CI](https://github.com/m13m/noted/actions/workflows/elixir.yml/badge.svg?branch=main)](https://github.com/m13m/noted/actions/workflows/elixir.yml)
 
+An application for keeping notes and particularly quickly capturing them via the Telegram messaging app.
+
+I've referenced this project a lot when doing other projects since it combines a few things I like to use.
+
+- SQLite
+- Telegram bot API
+- PETAL stack (Phoenix, Elixir, Tailwind CSS, Alpine.js, LiveView)
+
+## Setting it up
+
 To get started:
 
   * Install dependencies with `mix deps.get`

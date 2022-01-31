@@ -2,39 +2,34 @@ defmodule NotedWeb.Live.Components.Auth do
   use NotedWeb, :live_component
 
   def render(assigns) do
-    ~L"""
-    <section class="flex text-center m-4 mb-12 text-xl text-gray-200">
+    ~H"""
     <%= if @auth.user do %>
-      <!-- user dohickey -->
-      <div class="inline-block mx-auto cursor-pointer" x-data="{showMore: false}">
-        <%= if @auth.user.photo_path do %>
-        <a href="/" title="Home">
-          <span class="mr-2 md:mr-0 md:mb-2">
-            <img src="<%= Routes.file_path(@socket, :serve_user, @auth.user.id) %>"
-              class="rounded-full w-10 border-2 border-gray-400 mx-auto hover:border-gray-100"
-            />
-          </span>
-        </a>
-        <% end %>
-        <div class="inline-block hover:text-white">
-        <%= @auth.profile["first_name"] || @auth.profile["username"] %> <%= @auth.profile["last_name"] || "" %>
-          <button @click="showMore = !showMore;" title="Show account menu" class="h-6">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-            </svg>
-          </button>
+      <section class="absolute top-1 right-1 md:top-5 md:right-2 text-xl text-gray-300">
+        <!-- user dohickey -->
+        <div class="inline-block mx-auto cursor-pointer" x-data="{showMore: false}" @click="showMore = !showMore;">
+          <%= if @auth.user.photo_path do %>
+            <span class="mr-2 md:mr-0 md:mb-2">
+              <img src={ Routes.file_path(@socket, :serve_user, @auth.user.id) }
+                class="rounded-full w-10 border-2 border-gray-400 mx-auto hover:border-gray-100"
+              />
+            </span>
+          <% end %>
+          <div class="hidden absolute top-1 right-0 block w-full hover:text-white text-center opacity-50">
+          <%= (@auth.profile["first_name"] || @auth.profile["username"]) <> " " <> (@auth.profile["last_name"] || "") |> String.split(" ") |> Enum.map(&String.slice(&1, 0, 1)) |> Enum.join("") %>
+          </div>
+          <div x-show="showMore" class="absolute right-0 bg-gray-100 text-gray-900 w-40 my-2 p-2 px-4 rounded-md"><a href={ Routes.session_path(@socket, :logout) }>Log out</a></div>
         </div>
-        <div x-show="showMore"><a href="<%= Routes.session_path(@socket, :logout) %>">Log out</a></div>
-      </div>
+      </section>
     <% else %>
-      <div class="m-4 my-16 py-16 bg-gray-400 rounded-md text-white">
-        <p class="my-8 mb-12"><a class="p-4 px-8 bg-gray-700 rounded-full hover:bg-gray-600" href="<%= @auth.link %>" target="_blank">Authenticate via Telegram</a></p>
-        <p class="text-gray-700">or send this message</p>
-        <div class="font-mono my-8 py-4 bg-gray-700"><%= @auth.command %></div>
-        <p class="text-gray-700">to @<%= @auth.bot_name %>.</p>
-      </div>
+      <section>
+        <div class="m-4 my-16 py-16 bg-gray-400 rounded-md text-white text-center">
+          <div class="my-8 mb-12"><a class="p-4 px-8 bg-gray-700 rounded-full hover:bg-gray-600" href={ @auth.link } target="_blank">Authenticate via Telegram</a></div>
+          <p class="text-gray-700">or send this message</p>
+          <div class="font-mono my-8 py-4 bg-gray-700"><%= @auth.command %></div>
+          <p class="text-gray-700">to @<%= @auth.bot_name %>.</p>
+        </div>
+      </section>
     <% end %>
-    </section>
     """
   end
 end

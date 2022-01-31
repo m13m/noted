@@ -1,5 +1,4 @@
 /* This file is for your main application css. */
-@import "../node_modules/nprogress/nprogress.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -68,6 +67,11 @@
   .phx-change-loading .change-indicator {
     @apply opacity-100 animate-spin;
   }
+}
+
+.CodeMirror {
+  border-radius: 0 !important;
+  border: none !important;
 }
 
 /* LiveView specific classes for your customizations */

@@ -17,6 +17,7 @@ defmodule NotedWeb.NoteLive do
         |> assign(images: filter_images(note.files))
         |> assign(files: filter_files(note.files))
         |> assign(changeset: changeset, note: note)
+        |> assign(tag: "")
         |> allow_upload(:images,
           accept: ~w(.jpg .jpeg .png .gif),
           max_entries: 10,
@@ -153,6 +154,19 @@ defmodule NotedWeb.NoteLive do
   @impl true
   def handle_event("save", %{"note" => params}, socket) do
     case Notes.update_note(socket.assigns.note, params) do
+      {:error, changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+
+      {:ok, _note} ->
+        note = Notes.get_note!(socket.assigns.note.id)
+        changeset = Notes.change_note(note)
+        {:noreply, assign(socket, note: note, changeset: changeset)}
+    end
+  end
+
+  @impl true
+  def handle_event("save-note", text, socket) do
+    case Notes.update_note(socket.assigns.note, %{"body" => text}) do
       {:error, changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
 
